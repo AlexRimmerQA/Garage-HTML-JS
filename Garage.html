@@ -1,9 +1,42 @@
 <html>
 	<head>
 		<h1><b>Garage</b></h1>
+		<script src="Garage.js"></script>
+		<link rel="stylesheet" type="text/css" href="Garage.css">
 	</head>
 	<body>
-		
+		<div id = "garageControl" style="border-style:solid; margin:1%; padding:1%; border-width:2px; width:20%">
+			<div style="margin:2%;">
+				Car Registration: 
+				<input type = "text" id = "garageInputReg">
+			</div>
+			<div style="margin:2%;">
+				<input type = "button" id = "garageCheckIn" value = "Check-in" onclick = "">
+				<input type = "button" id = "garageCheckOut" value = "Check-out" onclick = "">
+			</div>
+			<div style="margin:2%;">
+				<input type = "button" id = "garageOutput" value = "Cars in Garage" onclick = "">
+				<input type = "button" id = "garageCalcCost" value = "Calculate Cost" onclick = "">
+			</div>
+		</div>
+		<div id = "carControl" style="border-style:solid; margin:1%; padding:1%; border-width:2px; width:20%">
+			<div style="margin:2%;">
+				Car Registration: 
+				<input type = "text" id = "carReg">
+			</div>
+			<div style="margin:2%;">
+				Car Type: 
+				<input type = "text" id = "carName">
+			</div>
+			<div style="margin:2%;">
+				Car Registration: 
+				<input type = "text" id = "carFaults">
+			</div>
+			<input type = "button" id = "carCreate" value = "Create" onclick = "">
+		</div>
+		<div id = "commandControl" style="border-style:solid; margin:1%; padding:1%; border-width:2px; width:20%">
+			<input type = "text" id = "commandLine" style="width:100%">
+		</div>
 	</body>
 	<footer>
 	</footer>
