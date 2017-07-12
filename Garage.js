@@ -8,15 +8,67 @@ class Car {
 	}
 }
 
-//var inGarageCarList = [{"reg":"k10 21k","name":"Peugeot","faults":["Broken Headlight"]}, {"reg":"k10 21k","name":"Peugeot","faults":["Broken Headlight", "Cracked Window"]}, {"reg":"k10 21k","name":"Peugeot","faults":["Broken Headlight"]}];
-var inGarageCarList = [];
-var outGarageCarList = [];
+let inGarageCarList = [];
+let outGarageCarList = [];
 
-
+//Function to parse the command line text and then do the appropriate function calls.
+function parseCommandLine(e) {
+	if(e.keyCode === 13) { // Enter Key
+		e.preventDefault();
+		let commandLine = document.getElementById("commandLine");
+		
+		//If the commandline exists and it has a value within it.
+		if(commandLine && commandLine.value != false) {
+			let outputText = ""; // text to be output after each command has been executed, either success or failure message.
+			//else if garage, check next word, if checkin, the next word should be a registration num, else if checkout, same situation, else if cost, same situation, else if output then output all the cars in garage.
+			//else if help, large alert for the commands.
+			let command = commandLine.value.toLowerCase().split(" ");
+			switch(command[0]) // check the first part of the command
+			{
+				case "car": // if the command starts with car
+					if(command[1] && command[2] && command[3] && command[1] === "add") { // verify that they have the minumum requirements for the command and they selected a command "add"
+						let registrationNum = command[2];
+						let carName = command[3];
+						let carFaults = [];
+						
+						if(command[4]) { // command[4] onwards are all faults, add them to the fault list
+							for(int i = 4; i < command.length; i++) {
+								carFaults[carFaults.length] = command[i];
+							}
+						}
+						
+						//Try and create the car and output what the result of that was.
+						if(createCar(registrationNum, carName, carFaults)) {
+							outputText = 'Car: ${registrationNum} was created';
+						} else {
+							outputText = 'There was a problem registering Car: ${registrationNum}';
+						}
+					}
+					else { // if there was a problem with the rest of the command, inform the user.
+						outputText = "There was a problem with the command entered";
+					}
+					break;
+				case "garage": // if the command starts with garage
+					
+					break;
+				case "help": // if the command starts with help
+					alert("car add REGNO NAME FAULT1 FAULT2 FAULT3 ... " + "\n" + "-- Adds a car to the list of cars on record" + "\n" + "garage checkin|checkout|cost REGNO " + "\n" + "-- Check in out cars with the garage or check the cost to repair the car" + "\n" + "garage output " + "\n" + "-- List all the cars currently in the garage");
+					break;
+				default: // if it doesnt recognise the start of the command
+					alert("Unrecognised command. Type 'help' for commands");
+					break;
+			}
+			commandLine.value = ""; // Empty the command line once the command has been entered.
+		}
+		else {
+			alert("There was a problem with the command.");
+		}
+	}
+}
 
 function calcCarCost() {
-	var carReg = document.getElementById("carReg").value;
-	var match;
+	let carReg = document.getElementById("carReg").value;
+	let match;
 	for(let i = 0; i < inGarageCarList.length; i++) {
 		if(inGarageCarList[i].reg == carReg) {
 			match = inGarageCarList[i];
@@ -24,7 +76,7 @@ function calcCarCost() {
 		}
 	}
 	if(match) {
-		var baseCost = 100;
+		let baseCost = 100;
 		switch(match.name) {
 			case "Ferrari":
 				baseCost *= 10;
@@ -44,12 +96,12 @@ function calcCarCost() {
 		}
 		baseCost *= match.faults.length;
 		
-		var newDiv = document.getElementById("garageCarCost");
+		let newDiv = document.getElementById("garageCarCost");
 		if(newDiv) {
 			newDiv.innerHTML = "";
 		}
 		else {
-			var garageDiv = document.getElementById("garageControl");
+			let garageDiv = document.getElementById("garageControl");
 			newDiv = document.createElement("DIV");
 			newDiv.setAttribute("id", "garageCarCost");
 			newDiv.setAttribute("style", "margin:2%;");
@@ -63,16 +115,24 @@ function calcCarCost() {
 }
 
 function createCar() {
-	var registration = document.getElementById("carReg").value;
-	var name = document.getElementById("carName").value;
-	var faultsList = document.getElementById("carFaults").value.split(",");
+	let registration = document.getElementById("carReg").value;
+	let name = document.getElementById("carName").value;
+	let faultsList = document.getElementById("carFaults").value.split(",");
+	
+	if(createCar(registration, name, faultsList)) {
+		alert(`Created car: Reg: ${registration}, Name: ${name}, Faults: ${faultsList}`);
+	} else {
+		alert(`There was a problem creating Car: ${registration}`);
+	}
+}
+
+function createCar(reg, name, faults) {
 	outGarageCarList[outGarageCarList.length] = {"reg":registration, "name":name, "faults":faultsList};
-	alert(`Created car: Reg: ${registration}, Name: ${name}, Faults: ${faultsList}`);
 }
 
 function addCarGarage() {
-	var carReg = document.getElementById("garageInputReg").value;
-	var match;
+	let carReg = document.getElementById("garageInputReg").value;
+	let match;
 	for(let i = 0; i < outGarageCarList.length; i++) {
 		if(outGarageCarList[i].reg == carReg) {
 			match = outGarageCarList.splice(i, 1)[0];
@@ -89,8 +149,8 @@ function addCarGarage() {
 }
 
 function removeCarGarage() {
-	var carReg = document.getElementById("carReg").value;
-	var match;
+	let carReg = document.getElementById("carReg").value;
+	let match;
 	for(let i = 0; i < inGarageCarList.length; i++) {
 		if(inGarageCarList[i].reg == carReg) {
 			match = inGarageCarList.splice(i, 1)[0];
@@ -107,12 +167,12 @@ function removeCarGarage() {
 }
 
 function outputGarageCars() {
-	var newDiv = document.getElementById("garageContent");
+	let newDiv = document.getElementById("garageContent");
 	if(newDiv) {
 		newDiv.innerHTML = "";
 	}
 	else {
-		var garageDiv = document.getElementById("garageControl");
+		let garageDiv = document.getElementById("garageControl");
 		newDiv = document.createElement("DIV");
 		newDiv.setAttribute("id", "garageContent");
 		newDiv.setAttribute("style", "margin:2%;");
