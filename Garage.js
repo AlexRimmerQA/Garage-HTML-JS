@@ -210,8 +210,8 @@ function removeCarGarageCmd(reg) {
 function removeCarGarage() {
 	let carReg = document.getElementById("carReg").value;
 	if(removeCarGarageCmd(carReg)) {
-		return true;
 		alert(`Car: ${carReg} has been checked out of the garage`);
+		return true;
 	} else {
 		alert("Could not find a car with the specified registration.\nPlease verify the registration and try again.");
 		return false;
