@@ -86,7 +86,6 @@ function parseCommandLine(e) {
 
 //commandLine version
 function calcCarCostCmd(reg) {
-	console.log("calcCarCostCmd()");
 	let match;
 	for(let i = 0; i < inGarageCarList.length; i++) {
 		if(inGarageCarList[i].reg == reg) {
@@ -124,8 +123,8 @@ function calcCarCostCmd(reg) {
 }
 
 function calcCarCost() {
-	console.log("calcCarCost()");
-	let cost = calcCarCostCmd(document.getElementById("carReg").value);
+	let carReg = document.getElementById("carReg");
+	let cost = calcCarCostCmd(carReg.value);
 	if(cost) {
 		let newDiv = document.getElementById("garageCarCost");
 		if(newDiv) {
@@ -145,13 +144,11 @@ function calcCarCost() {
 }
 
 function createCarCmd(reg, name, faults) {
-	console.log("createCarCmd()");
 	outGarageCarList[outGarageCarList.length] = {"reg":reg, "name":name, "faults":faults};
 	return true;
 }
 
 function createCar() {
-	console.log("createCar()");
 	let registration = document.getElementById("carReg").value;
 	let name = document.getElementById("carName").value;
 	let faultsList = document.getElementById("carFaults").value.split(",");
@@ -166,7 +163,6 @@ function createCar() {
 }
 
 function addCarGarageCmd(reg) {
-	console.log("addCarGarageCmd()");
 	let match;
 	for(let i = 0; i < outGarageCarList.length; i++) {
 		if(outGarageCarList[i].reg == reg) {
@@ -184,7 +180,6 @@ function addCarGarageCmd(reg) {
 }
 
 function addCarGarage() {
-	console.log("addCarGarage()");
 	let carReg = document.getElementById("garageInputReg").value;
 	if(addCarGarageCmd(carReg)) {
 		alert(`Car: ${carReg} has been checked into the garage`);
@@ -196,7 +191,6 @@ function addCarGarage() {
 }
 
 function removeCarGarageCmd(reg) {
-	console.log("removeCarGarageCmd()");
 	let match;
 	for(let i = 0; i < inGarageCarList.length; i++) {
 		if(inGarageCarList[i].reg == reg) {
@@ -214,8 +208,8 @@ function removeCarGarageCmd(reg) {
 }
 
 function removeCarGarage() {
-	console.log("removeCarGarage()");	
-	if(removeCarGarageCmd(document.getElementById("carReg").value)) {
+	let carReg = document.getElementById("carReg").value;
+	if(removeCarGarageCmd(carReg)) {
 		return true;
 		alert(`Car: ${carReg} has been checked out of the garage`);
 	} else {
@@ -225,7 +219,6 @@ function removeCarGarage() {
 }
 
 function outputGarageCarsCmd() {
-	console.log("outputGarageCarsCmd()");
 	let outputText = "Cars in garage: <br>";
 	for(let i = 0; i < inGarageCarList.length; i++) {
 		outputText += inGarageCarList[i].reg + ", ";
@@ -240,7 +233,6 @@ function outputGarageCarsCmd() {
 }
 
 function outputGarageCars() {
-	console.log("outputGarageCars()");
 	let newDiv = document.getElementById("garageContent");
 	if(newDiv) {
 		newDiv.innerHTML = "";
